@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangtiantian.mapper.MyMapper">
+	<select id="getGoods" resultType="com.wangtiantian.pojo.Goods">
+		SELECT * FROM tb_goods g,tb_brand b,tb_goodskind k 
+		WHERE g.bid=b.bid AND k.kid=g.kid
+		
+		<if test="gname!=null and gname!=''">
+			and g.gname like concat('%',#{gname},'%')
+		</if>
+	</select>
+	
+	<insert id="save">
+		INSERT INTO tb_goods (gname,bid,kid,datea,price)VALUES
+		(#{gname},#{bid},#{kid},#{datea},#{price})
+	</insert>
+	
+	<select id="getById" resultType="com.wangtiantian.pojo.Goods" >
+		SELECT * FROM tb_goods WHERE gid=#{id}
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM tb_goods WHERE gid in
+		<foreach collection="list" separator="," open="(" close=")" item="id">
+			#{id}
+		</foreach>
+	</delete>
+	<update id="updateGoods" parameterType="com.wangtiantian.pojo.Goods">
+		update tb_goods set  status=1 where gid in 
+	<foreach collection="list" separator="," open="(" close=")" item="id">
+			#{id}
+		</foreach>
+	</update>
+	
+	<delete id="delete2" parameterType="Integer">
+		DELETE FROM tb_goods WHERE gid=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.wangtiantian.pojo.Goods">
+		update tb_goods set gname=#{gname},bid=#{bid},kid=#{kid},
+		datea=#{datea},price=#{price} where gid=#{gid}
+	</update>
+	
+	<select id="getKind" resultType="com.wangtiantian.pojo.Kind">
+		SELECT * FROM tb_goodskind
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
